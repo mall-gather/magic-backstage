@@ -42,5 +42,8 @@ function collapse(show:boolean){
 .el-aside{
   height: 100vh;
   background-color: rgb(48, 65, 86);
+  &::-webkit-scrollbar{
+    display: none;
+  }
 }
 </style>

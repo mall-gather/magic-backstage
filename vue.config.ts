@@ -13,5 +13,6 @@ module.exports = {
       .set('layout', resolve('src/layout'))
       .set('views', resolve('src/views'))
       .set('components', resolve('src/components'))
+      .set('utils', resolve('src/utils'))
   }
 }

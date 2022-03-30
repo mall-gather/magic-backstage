@@ -1,6 +1,6 @@
 <template>
   <el-menu
-    default-active="/home"
+    :default-active="handRoute"
     class="el-menu-vertical-demo"
     :collapse="isCollapse"
     background-color="rgb(48, 65, 86)"
@@ -10,7 +10,7 @@
   >
     <el-menu-item index="/home">
       <el-icon>
-        <icon-menu />
+        <home-filled />
       </el-icon>
       <template #title>首页</template>
     </el-menu-item>
@@ -18,7 +18,7 @@
     <el-sub-menu index="/commodity">
       <template #title>
         <el-icon>
-          <location />
+          <goods-filled />
         </el-icon>
         <span>商品</span>
       </template>
@@ -34,7 +34,7 @@
     <el-sub-menu index="/order">
       <template #title>
         <el-icon>
-          <location />
+          <list />
         </el-icon>
         <span>订单</span>
       </template>
@@ -49,7 +49,7 @@
     <el-sub-menu index="/marketing">
       <template #title>
         <el-icon>
-          <location />
+          <ticket />
         </el-icon>
         <span>营销</span>
       </template>
@@ -67,7 +67,7 @@
     <el-sub-menu index="/permission">
       <template #title>
         <el-icon>
-          <location />
+          <key />
         </el-icon>
         <span>权限</span>
       </template>
@@ -78,18 +78,21 @@
         <el-menu-item index="/permission/listofresources">资源列表</el-menu-item>
       </el-menu-item-group>
     </el-sub-menu>
-
-    
   </el-menu>
 </template>
 
 <script lang="ts" setup>
-import { ref, defineProps } from 'vue'
+import { ref, defineProps, computed } from 'vue'
 import {
-  Location,
-  Menu as IconMenu,
-  Setting,
+  Key,
+  GoodsFilled,
+  HomeFilled,
+  List,
+  Ticket
 } from '@element-plus/icons-vue'
+import { useRoute } from 'vue-router';
+
+const Route = useRoute()
 
 interface Props {
   isCollapse: boolean;
@@ -100,6 +103,11 @@ const { isCollapse = false } = defineProps<Props>()
 // const handleSelect = (key: string, keyPath: string[]) => {
 //   console.log(key, keyPath)
 // }
+const handRoute = computed(() => {
+  return Route.path
+})
+
+
 </script>
 
 <style lang="less" scoped>
