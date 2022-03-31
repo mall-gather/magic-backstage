@@ -15,12 +15,6 @@ import 'element-plus/dist/index.css'
 // 缓存token
 import { getToken } from './utils/auth';
 
-const app = createApp(App)
-
-app.use(ElementPlus)
-
-app.use(store).use(router).mount('#app')
-
 // 路由拦截
 router.beforeEach((to,from,next)=>{
   let token = getToken('token')
@@ -51,3 +45,11 @@ router.beforeEach((to,from,next)=>{
 router.afterEach(()=>{
   NProgress.done()
 })
+
+const app = createApp(App)
+
+app.use(ElementPlus)
+
+app.use(store).use(router).mount('#app')
+
+export default app

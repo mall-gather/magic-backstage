@@ -31,6 +31,9 @@ function collapse(show:boolean){
 </script>
 
 <style lang="less" scoped>
+.el-container{
+  height: 100vh;
+}
 .el-header{
   box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
   height: 50px;
@@ -38,9 +41,11 @@ function collapse(show:boolean){
 }
 .el-main{
   background-color: #f0f2f5;
+  &::-webkit-scrollbar{
+    display: none;
+  }
 }
 .el-aside{
-  height: 100vh;
   background-color: rgb(48, 65, 86);
   &::-webkit-scrollbar{
     display: none;
