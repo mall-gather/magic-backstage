@@ -3,14 +3,18 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import * as echarts from 'echarts';
+import { getTime } from '@/utils/times';
 
 // dom
 const chartRef = ref<HTMLDivElement>()
+const optionDay: Array<string> = reactive([])
 
 onMounted(() => {
+  getDays()
   setEchartsData()
+  
 })
 
 // ECharts方法
@@ -19,7 +23,7 @@ const setEchartsData = () => {
 
   var option = {
     title: {
-      text: 'Stacked Line'
+      text: '订单统计'
     },
     tooltip: {
       trigger: 'axis'
@@ -48,7 +52,7 @@ const setEchartsData = () => {
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      data: optionDay
     },
     yAxis: {
       type: 'value'
@@ -77,8 +81,15 @@ const setEchartsData = () => {
 
   myChaet.setOption(option)
 
-  window.onresize = ()=>{
+  window.onresize = () => {
     myChaet.resize()
+  }
+}
+
+// 获取年月日
+function getDays(){
+  for (let index = 6; index >= 0; index--) {
+    optionDay.push(getTime(-index))
   }
 }
 

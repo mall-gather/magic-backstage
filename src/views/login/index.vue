@@ -17,7 +17,7 @@
               <lock />
             </el-icon>
           </template>
-          <el-input v-model.number="ruleForm.password" placeholder="密码" autocomplete="off" />
+          <el-input type="password" v-model.number="ruleForm.password" placeholder="密码" autocomplete="off" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm(ruleFormRef)">登录</el-button>

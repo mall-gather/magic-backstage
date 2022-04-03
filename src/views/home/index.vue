@@ -7,12 +7,9 @@
 </template>
 
 <script setup lang="ts">
-// @ts-ignore
-import Headers from './components/Headers';
-// @ts-ignore
-import HandleContent from './components/HandleContent';
-// @ts-ignore
-import EchartsList from './components/EchartsList';
+import Headers from './component/Headers.vue';
+import HandleContent from './component/HandleContent.vue';
+import EchartsList from './component/EchartsList.vue';
 </script>
 
 <style lang="less" scoped>

@@ -19,8 +19,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import Menu from './components/Menu.vue';
-import Navbar from './components/Navbar.vue';
+import Menu from './component/Menu.vue';
+import Navbar from './component/Navbar.vue';
 
 const isCollapse = ref(false)
 
