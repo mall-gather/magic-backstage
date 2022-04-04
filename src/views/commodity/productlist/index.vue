@@ -18,12 +18,13 @@ import Pagination from '@/components/Pagination/index.vue';
 import { ref } from 'vue';
 
 interface Data {
-  id: number,
-  goodsImg: string,
-  name: string,
-  price: number,
-  articleNumber: string,
-  sales: number
+  id: number;
+  goodsImg: string;
+  name: string;
+  price: number;
+  articleNumber: string;
+  sales: number;
+  [propName: string]: any;
 }
 
 const currentPage = ref(1)

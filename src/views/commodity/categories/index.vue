@@ -14,11 +14,12 @@ import Pagination from '@/components/Pagination/index.vue';
 import { ref } from 'vue';
 
 interface Data {
-  id: number,
-  name: string,
-  level: string,
-  goodsNumber:number,
-  categoryColumn:boolean,
+  id: number;
+  name: string;
+  level: string;
+  goodsNumber:number;
+  categoryColumn:boolean;
+  [propName: string]: any;
 }
 
 const tableData: Data[] = [

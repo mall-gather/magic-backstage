@@ -17,10 +17,11 @@ import Pagination from '@/components/Pagination/index.vue';
 import { ref, reactive } from 'vue';
 
 interface Data {
-  id: number,
-  reasonType: string,
-  available: boolean,
-  addTime: string
+  id: number;
+  reasonType: string;
+  available: boolean;
+  addTime: string;
+  [propName: string]: any;
 }
 
 const tableData: Data[] = reactive([
