@@ -26,8 +26,6 @@
         <el-menu-item index="/commodity/productlist">商品列表</el-menu-item>
         <el-menu-item index="/commodity/addinggoods">添加商品</el-menu-item>
         <el-menu-item index="/commodity/categories">商品分类</el-menu-item>
-        <el-menu-item index="/commodity/producttypes">商品类型</el-menu-item>
-        <el-menu-item index="/commodity/brandmanagement">品牌管理</el-menu-item>
       </el-menu-item-group>
     </el-sub-menu>
 
@@ -40,7 +38,6 @@
       </template>
       <el-menu-item-group>
         <el-menu-item index="/order/orderlist">订单列表</el-menu-item>
-        <el-menu-item index="/order/ordersettings">订单设置</el-menu-item>
         <el-menu-item index="/order/Returnrequestprocessing">退货申请处理</el-menu-item>
         <el-menu-item index="/order/ReturnReasonSettings">退货原因设置</el-menu-item>
       </el-menu-item-group>

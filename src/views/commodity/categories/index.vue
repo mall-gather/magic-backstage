@@ -21,9 +21,6 @@ interface Data {
   categoryColumn:boolean,
 }
 
-const currentPage = ref(1)
-const pageSize = ref(10)
-
 const tableData: Data[] = [
   {
     id: 1,
@@ -75,6 +72,9 @@ const tableData: Data[] = [
     categoryColumn:true
   },
 ]
+
+const currentPage = ref(1)
+const pageSize = ref(10)
 
 let total = ref(tableData.length)
 /**

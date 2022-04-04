@@ -37,24 +37,24 @@ const commodity: Array<RouteRecordRaw> = [
           requiresAuth: true
         }
       },
-      {
-        path: 'producttypes',
-        name: 'producttypes',
-        component: () => import('@/views/commodity/producttypes/index.vue'),
-        meta: {
-          title: '商品类型',
-          requiresAuth: true
-        }
-      },
-      {
-        path: 'brandmanagement',
-        name: 'brandmanagement',
-        component: () => import('@/views/commodity/brandmanagement/index.vue'),
-        meta: {
-          title: '品牌管理',
-          requiresAuth: true
-        }
-      }
+      // {
+      //   path: 'producttypes',
+      //   name: 'producttypes',
+      //   component: () => import('@/views/commodity/producttypes/index.vue'),
+      //   meta: {
+      //     title: '商品类型',
+      //     requiresAuth: true
+      //   }
+      // },
+      // {
+      //   path: 'brandmanagement',
+      //   name: 'brandmanagement',
+      //   component: () => import('@/views/commodity/brandmanagement/index.vue'),
+      //   meta: {
+      //     title: '品牌管理',
+      //     requiresAuth: true
+      //   }
+      // }
 
     ]
   },

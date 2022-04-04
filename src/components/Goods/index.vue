@@ -18,6 +18,9 @@
             <el-option label="Zone two" value="beijing" />
           </el-select>
         </el-form-item>
+        <el-form-item label="货号" prop="articleNumber">
+          <el-input v-model="ruleForm.articleNumber" />
+        </el-form-item>
         <el-form-item label="商品价格" prop="price">
           <el-input v-model="ruleForm.price" />
         </el-form-item>
@@ -52,6 +55,7 @@ const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
   name: null,
   categoriesName: null,
+  articleNumber:null,
   price: null,
   introduction: null,
   productSnapshot: null,
@@ -68,6 +72,14 @@ const rules = reactive({
     {
       required: true,
       message: 'Please select Activity zone',
+      trigger: 'change',
+    },
+  ],
+  articleNumber: [
+    {
+      type: 'date',
+      required: true,
+      message: 'Please pick a date',
       trigger: 'change',
     },
   ],

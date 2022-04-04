@@ -20,15 +20,6 @@ const order: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: 'ordersettings',
-        name: 'ordersettings',
-        component: () => import('@/views/order/ordersettings/index.vue'),
-        meta: {
-          title: '订单设置',
-          requiresAuth: true
-        }
-      },
-      {
         path: 'Returnrequestprocessing',
         name: 'Returnrequestprocessing',
         component: () => import('@/views/order/Returnrequestprocessing/index.vue'),
