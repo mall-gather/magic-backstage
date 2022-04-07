@@ -17,7 +17,12 @@
               <lock />
             </el-icon>
           </template>
-          <el-input type="password" v-model.number="ruleForm.password" placeholder="密码" autocomplete="off" />
+          <el-input
+            type="password"
+            v-model="ruleForm.password"
+            placeholder="密码"
+            autocomplete="off"
+          />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm(ruleFormRef)">登录</el-button>
@@ -29,7 +34,7 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import {ElMessage} from 'element-plus'
+import { ElMessage } from 'element-plus'
 import type { FormInstance } from 'element-plus'
 import { UserFilled, Lock } from '@element-plus/icons-vue';
 
@@ -75,17 +80,18 @@ const submitForm = (formEl: FormInstance | undefined) => {
     if (valid) {
       login(ruleForm).then((result: any): void => {
         console.log(result);
-        setToken('token', result.data.token)
-        ElMessage({
-          showClose: true,
-          message: '登录成功.',
-          type: 'success',
-        })
-        Router.push({
-          path: '/home'
-        })
+        if (result.data.code === 200) {
+          setToken('token', result.data.token)
+          ElMessage({
+            showClose: true,
+            message: '登录成功.',
+            type: 'success',
+          })
+          Router.push({
+            path: '/home'
+          })
+        }
       }).catch((err: any): void => {
-        console.log(err);
         ElMessage({
           showClose: true,
           message: '账号不存在，或者账号密码错误.',

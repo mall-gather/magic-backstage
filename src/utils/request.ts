@@ -1,6 +1,6 @@
 import axios from 'axios';
 import router from '../router/index';
-import { getToken } from './auth';
+import { getToken,removeToken } from './auth';
 
 export function request(config: any) {
   const instance = axios.create({
@@ -19,6 +19,7 @@ export function request(config: any) {
     if (err.response) {
       switch (err.response.status) {
         case 401:
+          removeToken('token')
           router.replace({
             path: 'login',
             query: { redirect: router.currentRoute.value.fullPath } // 将跳转的路由path作为参数，登录成功后跳转到该路由

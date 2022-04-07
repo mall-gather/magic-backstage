@@ -1,9 +1,9 @@
-import { request } from '../utils/request';
+import { request } from '@/utils/request';
 import qs from 'qs';
 
 export function login(data:any):any{
   return request({
-    url: '/login',
+    url: '/api/login',
     method: 'post',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'

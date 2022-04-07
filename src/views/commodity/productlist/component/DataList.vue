@@ -44,12 +44,11 @@ interface Data {
   name: string,
   price: number,
   articleNumber: string,
-  sales: number
+  sales: number,
+  [propName: string]: any;
 }
 
 const { tableData } = defineProps<Props>()
-
-
 
 const multipleTableRef = ref<InstanceType<typeof ElTable>>()
 const multipleSelection = ref<Data[]>([])

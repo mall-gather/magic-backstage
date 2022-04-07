@@ -1,7 +1,7 @@
 <template>
   <div class="productlist">
     <ListTitle></ListTitle>
-    <DataList :tableData="tableData.slice((currentPage - 1) * pageSize, currentPage * pageSize)"></DataList>
+    <DataList :tableData="tableData.arr.slice((currentPage - 1) * pageSize, currentPage * pageSize)"></DataList>
     <Pagination
       :total="total"
       @handleSizeChange="handleSizeChange"
@@ -15,81 +15,34 @@ import ListTitle from './component/ListTitle.vue';
 import DataList from './component/DataList.vue';
 import Pagination from '@/components/Pagination/index.vue';
 
-import { ref } from 'vue';
+import {getGoodsList} from '@/api/goods';
 
-interface Data {
-  id: number;
-  goodsImg: string;
-  name: string;
-  price: number;
-  articleNumber: string;
-  sales: number;
-  [propName: string]: any;
-}
+import { onMounted, reactive, ref } from 'vue';
+
+// interface Data {
+//   id: number;
+//   goodsImg: string;
+//   name: string;
+//   price: number;
+//   articleNumber: string;
+//   sales: number;
+//   [propName: string]: any;
+// }
 
 const currentPage = ref(1)
 const pageSize = ref(10)
 
-const tableData: Data[] = [
-  {
-    id: 1,
-    goodsImg: '123',
-    name: '手机',
-    price: 1000,
-    articleNumber: '611000',
-    sales: 111
-  },
-  {
-    id: 2,
-    goodsImg: '123',
-    name: '手机',
-    price: 1000,
-    articleNumber: '611000',
-    sales: 111
-  },
-  {
-    id: 3,
-    goodsImg: '123',
-    name: '手机',
-    price: 1000,
-    articleNumber: '611000',
-    sales: 111
-  },
-  {
-    id: 4,
-    goodsImg: '123',
-    name: '手机',
-    price: 1000,
-    articleNumber: '611000',
-    sales: 111
-  },
-  {
-    id: 5,
-    goodsImg: '123',
-    name: '手机',
-    price: 1000,
-    articleNumber: '611000',
-    sales: 111
-  },
-  {
-    id: 6,
-    goodsImg: '123',
-    name: '手机',
-    price: 1000,
-    articleNumber: '611000',
-    sales: 111
-  },
-  {
-    id: 7,
-    goodsImg: '123',
-    name: '手机',
-    price: 1000,
-    articleNumber: '611000',
-    sales: 111
-  }
-]
+let tableData = reactive({
+  arr:[]
+})
 
-let total = ref(tableData.length)
+let total = ref(tableData.arr.length)
+
+onMounted(()=>{
+  getGoodsLists()
+})
+
+
 /**
  * 计算页数公式：
  *    (当前页码-1)*每页的数据条数，当前页码*每页的数据条数-1
@@ -100,6 +53,15 @@ function handleSizeChange(val: number) {
 }
 function handleCurrentChange(val: number) {
   currentPage.value = val
+}
+
+function getGoodsLists(){
+  getGoodsList().then(res=>{
+    console.log(res);
+    tableData.arr = res.data.data
+  }).catch(err=>{
+    console.log(err);
+  })
 }
 
 </script>
