@@ -1,7 +1,7 @@
 <template>
   <div class="productlist">
     <ListTitle></ListTitle>
-    <DataList :tableData="tableData.arr.slice((currentPage - 1) * pageSize, currentPage * pageSize)"></DataList>
+    <DataList :tableData="tableData.list"></DataList>
     <Pagination
       :total="total"
       @handleSizeChange="handleSizeChange"
@@ -17,37 +17,20 @@ import Pagination from '@/components/Pagination/index.vue';
 
 import {getGoodsList} from '@/api/goods';
 
-import { onMounted, reactive, ref } from 'vue';
-
-// interface Data {
-//   id: number;
-//   goodsImg: string;
-//   name: string;
-//   price: number;
-//   articleNumber: string;
-//   sales: number;
-//   [propName: string]: any;
-// }
+import { onMounted, reactive, ref,watch } from 'vue';
 
 const currentPage = ref(1)
 const pageSize = ref(10)
 
 let tableData = reactive({
-  arr:[]
+  list:[]
 })
-
-let total = ref(tableData.arr.length)
+let total = ref()
 
 onMounted(()=>{
   getGoodsLists()
 })
 
-
-/**
- * 计算页数公式：
- *    (当前页码-1)*每页的数据条数，当前页码*每页的数据条数-1
- *    slice((当前页码-1)*每页的数据条数，当前页码*每页的数据条数)
- */
 function handleSizeChange(val: number) {
   pageSize.value = val
 }
@@ -55,10 +38,14 @@ function handleCurrentChange(val: number) {
   currentPage.value = val
 }
 
+watch(currentPage,getGoodsLists)
+watch(pageSize,getGoodsLists)
+
 function getGoodsLists(){
-  getGoodsList().then(res=>{
+  getGoodsList(currentPage.value,pageSize.value).then(res=>{
     console.log(res);
-    tableData.arr = res.data.data
+    tableData.list = res.data.data
+    total.value = res.data.total
   }).catch(err=>{
     console.log(err);
   })

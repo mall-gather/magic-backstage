@@ -8,11 +8,15 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" />
-      <el-table-column property="id" label="编号" width="120" />
-      <el-table-column property="goodsImg" label="商品图片" width="200" />
-      <el-table-column property="name" label="商品名称" width="200" />
-      <el-table-column property="price" label="价格" width="200" />
-      <el-table-column property="articleNumber" label="货号" width="200" />
+      <el-table-column property="goods_id" label="编号" width="120" />
+      <el-table-column label="商品图片" width="200">
+        <template #default="scope">
+          <el-image style="width: 100px; height: 100px" :src="scope.row.goods_avatar" fit="cover" />
+        </template>
+      </el-table-column>
+      <el-table-column property="goods_name" label="商品名称" width="200" />
+      <el-table-column property="goods_pic" label="价格" width="200" />
+      <el-table-column property="article_number" label="货号" width="200" />
       <el-table-column label="库存" header-align="left" align="center" width="120">
         <template #default="scope">
           <el-button type="primary" :icon="Edit" circle />
@@ -39,12 +43,6 @@ interface Props {
 }
 
 interface Data {
-  id: number,
-  goodsImg: string,
-  name: string,
-  price: number,
-  articleNumber: string,
-  sales: number,
   [propName: string]: any;
 }
 

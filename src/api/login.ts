@@ -3,7 +3,7 @@ import qs from 'qs';
 
 export function login(data:any):any{
   return request({
-    url: '/api/login',
+    url: '/api/admin/login',
     method: 'post',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'

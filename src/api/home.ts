@@ -2,7 +2,7 @@ import {request} from '@/utils/request';
 
 export function index(){
   return request({
-    url:'/api/index',
+    url:'/api/admin/index',
     method:'GET'
   })
 }

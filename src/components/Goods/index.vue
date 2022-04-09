@@ -9,26 +9,26 @@
         class="demo-ruleForm"
         :size="formSize"
       >
-        <el-form-item label="商品名称" prop="name">
-          <el-input v-model="ruleForm.name" />
+        <el-form-item label="商品名称" prop="goods_name">
+          <el-input v-model="ruleForm.goods_name" />
         </el-form-item>
-        <el-form-item label="商品分类" prop="categoriesName">
-          <el-select v-model="ruleForm.categoriesName" placeholder="请选择">
+        <el-form-item label="商品分类" prop="category_id">
+          <el-select v-model="ruleForm.category_id" placeholder="请选择">
             <el-option label="Zone one" value="shanghai" />
             <el-option label="Zone two" value="beijing" />
           </el-select>
         </el-form-item>
-        <el-form-item label="货号" prop="articleNumber">
-          <el-input v-model="ruleForm.articleNumber" />
+        <el-form-item label="货号" prop="article_number">
+          <el-input v-model="ruleForm.article_number" />
         </el-form-item>
-        <el-form-item label="商品价格" prop="price">
-          <el-input v-model="ruleForm.price" />
+        <el-form-item label="商品价格" prop="goods_pic">
+          <el-input v-model="ruleForm.goods_pic" />
         </el-form-item>
-        <el-form-item label="商品简介" prop="introduction">
-          <el-input v-model="ruleForm.introduction" type="textarea" />
+        <el-form-item label="商品简介" prop="infor">
+          <el-input v-model="ruleForm.infor" type="textarea" />
         </el-form-item>
         <el-form-item label="商品快照">
-          <ImageUpload />
+          <ImageUpload v-model="ruleForm.goods_avatar" />
         </el-form-item>
         <el-form-item label="商品轮播图">
           <ImageUpload />
@@ -49,33 +49,36 @@
 import { reactive, ref } from 'vue'
 import type { FormInstance } from 'element-plus'
 import ImageUpload from '@/components/ImageUpload/index.vue';
+import { useRouter } from 'vue-router';
+
+const Router = useRouter()
 
 const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
-  name: null,
-  categoriesName: null,
-  articleNumber:null,
-  price: null,
-  introduction: null,
-  productSnapshot: null,
-  productCarousel: null,
-  productDetails: null
+  goods_name: null,
+  category_id: null,
+  article_number:null,
+  goods_pic: null,
+  infor: null,
+  goods_avatar: null,
+  goods_carousel: null,
+  goods_details: null
 })
 
 const rules = reactive({
-  name: [
+  goods_name: [
     { required: true, message: 'Please input Activity name', trigger: 'blur' },
     { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
   ],
-  categoriesName: [
+  category_id: [
     {
       required: true,
       message: 'Please select Activity zone',
       trigger: 'change',
     },
   ],
-  articleNumber: [
+  article_number: [
     {
       type: 'date',
       required: true,
@@ -83,7 +86,7 @@ const rules = reactive({
       trigger: 'change',
     },
   ],
-  price: [
+  goods_pic: [
     {
       type: 'date',
       required: true,
@@ -91,7 +94,7 @@ const rules = reactive({
       trigger: 'change',
     },
   ],
-  introduction: [
+  infor: [
     {
       type: 'date',
       required: true,
@@ -99,7 +102,7 @@ const rules = reactive({
       trigger: 'change',
     },
   ],
-  productSnapshot: [
+  goods_avatar: [
     {
       type: 'array',
       required: true,
@@ -107,18 +110,21 @@ const rules = reactive({
       trigger: 'change',
     },
   ],
-  productCarousel: [
+  goods_carousel: [
     {
       required: true,
       message: 'Please select activity resource',
       trigger: 'change',
     },
   ],
-  productDetails: [
+  goods_details: [
     { required: true, message: 'Please input activity form', trigger: 'blur' },
   ],
 })
 
+
+
+// 提交
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
@@ -126,6 +132,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       console.log('submit!')
     } else {
       console.log('error submit!', fields)
+      console.log(ruleForm);
+      
     }
   })
 }
@@ -133,6 +141,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.resetFields()
+   Router.go(-1)
 }
 </script>
 
