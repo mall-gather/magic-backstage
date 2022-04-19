@@ -1,43 +1,37 @@
 <template>
   <div class="goods">
     <el-card class="box-card" shadow="never">
-      <el-form ref="ruleFormRef" :model="ruleForm.data" :rules="rules" label-width="150px" class="demo-ruleForm"
+      <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm"
         :size="formSize">
         <el-form-item label="商品名称" prop="goods_name">
-          <el-input v-model="ruleForm.data.goods_name" />
+          <el-input v-model="ruleForm.goods_name" />
         </el-form-item>
         <el-form-item label="商品分类" prop="category_id">
-          <el-select v-model="ruleForm.data.category_id" :disabled="Route.name === 'editgoods'" placeholder="请选择">
+          <el-select v-model="ruleForm.category_id" placeholder="请选择">
             <el-option v-for="(item, index) in categoryColumn.arr" :key="index" :label="item['category_name']"
               :value="item['category_id']" />
           </el-select>
         </el-form-item>
         <el-form-item label="货号" prop="article_number">
-          <el-input v-model="ruleForm.data.article_number" :disabled="Route.name === 'editgoods'" />
+          <el-input v-model="ruleForm.article_number" />
         </el-form-item>
-        <el-form-item label="商品价格(起步价)" prop="goods_pic">
-          <el-input v-model="ruleForm.data.goods_pic" />
+        <el-form-item label="商品价格" prop="goods_pic">
+          <el-input v-model="ruleForm.goods_pic" />
         </el-form-item>
         <el-form-item label="商品简介" prop="infor">
-          <el-input v-model="ruleForm.data.infor" type="textarea" />
+          <el-input v-model="ruleForm.infor" type="textarea" />
         </el-form-item>
         <!--  -->
-        <Specification :specification="ruleForm" @updataList="updataList"></Specification>
+        <Specification></Specification>
         <!--  -->
         <el-form-item label="商品快照" prop="goods_avatar">
-          <ImageUpload v-model="ruleForm.data.goods_avatar" v-if="Route.name === 'addinggoods'" :limit="1" />
-          <ImageUpload v-model="ruleForm.data.goods_avatar"
-            v-else-if="Route.name === 'editgoods' && ruleForm.data.goods_avatar !== null" :limit="1" />
+          <ImageUpload v-model="ruleForm.goods_avatar" :limit="1" />
         </el-form-item>
         <el-form-item label="商品轮播图" prop="goods_carousel">
-          <ImageUpload v-model="ruleForm.data.goods_carousel" v-if="Route.name === 'addinggoods'" />
-          <ImageUpload v-model="ruleForm.data.goods_carousel"
-            v-else-if="Route.name === 'editgoods' && ruleForm.data.goods_carousel !== null" />
+          <ImageUpload v-model="ruleForm.goods_carousel" />
         </el-form-item>
         <el-form-item label="商品详细图" prop="goods_carousel">
-          <ImageUpload v-model="ruleForm.data.goods_details" v-if="Route.name === 'addinggoods'" />
-          <ImageUpload v-model="ruleForm.data.goods_details"
-            v-else-if="Route.name === 'editgoods' && ruleForm.data.goods_details !== null" />
+          <ImageUpload v-model="ruleForm.goods_details" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm(ruleFormRef)">提交</el-button>
@@ -49,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref, watch } from 'vue'
+import { onMounted, provide, reactive, ref, watch } from 'vue'
 import type { FormInstance } from 'element-plus'
 import Specification from '@/components/Specification/index.vue';
 import ImageUpload from '@/components/ImageUpload/index.vue';
@@ -67,23 +61,21 @@ const Route = useRoute()
 const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
-  data: {
-    goods_name: null,
-    category_id: null,
-    article_number: null,
-    goods_pic: null,
-    infor: null,
-    // 规格
-    specification_name1: null,
-    specification_name2: null,
-    checkList1: null,
-    checkList2: null,
-    specification: [] as Array<T>,
-    // 图片
-    goods_avatar: null,
-    goods_carousel: null,
-    goods_details: null
-  }
+  goods_name: null,
+  category_id: null,
+  article_number: null,
+  goods_pic: null,
+  infor: null,
+  // 规格
+  specification_name1: null,
+  specification_name2: null,
+  checkList1: null,
+  checkList2: null,
+  specification: [] as Array<T>,
+  // 图片
+  goods_avatar: null,
+  goods_carousel: null,
+  goods_details: null
 })
 
 const categoryColumn = reactive({
@@ -118,15 +110,16 @@ const rules = reactive({
   ],
   infor: [
     {
+      type: 'date',
       required: true,
       message: '请输入商品简介',
       trigger: 'change',
     },
   ],
-  specification: [
+  type_value: [
     {
       required: true,
-      message: '请输入商品规格',
+      message: '请选择属性类型',
       trigger: 'change',
     },
   ],
@@ -153,9 +146,10 @@ const rules = reactive({
   ],
 })
 
+
 onMounted(() => {
   getCategoryColumn()
-  Number(Route.query.goods_id) ? getGoodsData(Number(Route.query.goods_id)) : null
+  Number(Route.query.goods_id)?getGoodsData(Number(Route.query.goods_id)):null
 })
 
 // 通过id获取分类栏
@@ -168,16 +162,26 @@ function getCategoryColumn() {
 }
 
 // 获取商品数据
-function getGoodsData(goods_id: number) {
+function getGoodsData(goods_id:number) {
   getGoods(goods_id).then(res => {
     console.log(res);
-    ruleForm.data = res.data.data
   })
 }
 
+
+// 规格
+provide('specificationList', specificationList)
+function specificationList(data: any) {
+  ruleForm.specification_name1 = data.specification_name1
+  ruleForm.specification_name2 = data.specification_name2
+  ruleForm.checkList1 = data.checkList1
+  ruleForm.checkList2 = data.checkList2
+}
+
 // 更新规格
-function updataList(data: any) {
-  ruleForm.data.specification = data
+provide('upSpecificationList', upSpecificationList)
+function upSpecificationList(data: any) {
+  ruleForm.specification = data
 }
 
 
@@ -189,11 +193,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       console.log('submit!')
       if (Route.name === 'addinggoods') {
         console.log('添加商品');
-
-      }
-      if (Route.name === 'editgoods') {
-        console.log('编辑商品');
-        console.log(ruleForm);
 
       }
 

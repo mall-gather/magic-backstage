@@ -37,15 +37,15 @@ const commodity: Array<RouteRecordRaw> = [
           requiresAuth: true
         }
       },
-      // {
-      //   path: 'producttypes',
-      //   name: 'producttypes',
-      //   component: () => import('@/views/commodity/producttypes/index.vue'),
-      //   meta: {
-      //     title: '商品类型',
-      //     requiresAuth: true
-      //   }
-      // },
+      {
+        path: 'editgoods',
+        name: 'editgoods',
+        component: () => import('@/views/commodity/editgoods/index.vue'),
+        meta: {
+          title: '编辑商品',
+          requiresAuth: true
+        }
+      },
       // {
       //   path: 'brandmanagement',
       //   name: 'brandmanagement',
