@@ -49,13 +49,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref, watch } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import type { FormInstance } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import Specification from '@/components/Specification/index.vue';
 import ImageUpload from '@/components/ImageUpload/index.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { getCategoryColumnList } from '@/api/category';
-import { getGoods } from '@/api/goods';
+import { getGoods, addGoods, getArticleNumber, upDataGoods } from '@/api/goods';
 
 interface T {
   [name: string]: any
@@ -90,6 +91,23 @@ const categoryColumn = reactive({
   arr: []
 })
 
+// 查询货号是否存在
+const getArticleNumberRule = (rule: any, value: any, callback: any) => {
+  if (Route.name === 'addinggoods') {
+    getArticleNumber(value).then(res => {
+      if (res.data.data === '货号存在') {
+        callback(new Error('货号已存在，请重新输入'))
+      }
+      if (res.data.data === '货号不存在') {
+        callback()
+      }
+    })
+  }
+  else {
+    callback()
+  }
+}
+
 const rules = reactive({
   goods_name: [
     { required: true, message: '请输入商品名字', trigger: 'blur' },
@@ -108,6 +126,10 @@ const rules = reactive({
       message: '请输入货号',
       trigger: 'change',
     },
+    {
+      validator: getArticleNumberRule,
+      trigger: 'blur'
+    }
   ],
   goods_pic: [
     {
@@ -186,20 +208,29 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      console.log('submit!')
       if (Route.name === 'addinggoods') {
         console.log('添加商品');
-
+        addGoods(ruleForm.data).then(res => {
+          console.log(res);
+          ElMessage({
+            message: res.data.data,
+            type: 'success',
+          })
+        })
       }
       if (Route.name === 'editgoods') {
         console.log('编辑商品');
-        console.log(ruleForm);
-
+        upDataGoods(ruleForm.data).then(res => {
+          console.log(res);
+          ElMessage({
+            message: res.data.data,
+            type: 'success',
+          })
+          Router.replace('productlist')
+        })
       }
-
     } else {
       console.log('error submit!', fields)
-      console.log(ruleForm);
     }
   })
 }

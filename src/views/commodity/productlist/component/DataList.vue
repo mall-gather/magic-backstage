@@ -12,7 +12,7 @@
       <el-table-column property="goods_name" label="商品名称" width="200" />
       <el-table-column label="商品分类" width="200">
         <template #default="scope">
-            {{categoryName(scope.row.category_id)}}
+          {{ categoryName(scope.row.category_id) }}
         </template>
       </el-table-column>
       <el-table-column property="article_number" label="货号" width="200" />
@@ -25,7 +25,7 @@
       <el-table-column label="操作">
         <template #default="scope">
           <el-button @click="edit(scope.row.goods_id)">编辑</el-button>
-          <el-button type="danger">删除</el-button>
+          <el-button type="danger" @click="deleteData(scope.row.article_number)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -33,11 +33,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref,computed, reactive, onMounted } from 'vue'
+import { ref, computed, reactive, onMounted } from 'vue'
 import type { ElTable } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { Edit } from '@element-plus/icons-vue';
 
-import {getCategoryColumnList} from '@/api/category';
+import {deleteGoods} from '@/api/goods';
+import { getCategoryColumnList } from '@/api/category';
 import { useRouter } from 'vue-router';
 
 interface Props {
@@ -49,11 +51,12 @@ interface Data {
 }
 
 const Router = useRouter()
+const emit = defineEmits(['upDataList'])
 
 const { tableData } = defineProps<Props>()
 
 const categoryList = reactive({
-  arr:[]
+  arr: []
 })
 
 const multipleTableRef = ref<InstanceType<typeof ElTable>>()
@@ -63,9 +66,9 @@ const handleSelectionChange = (val: Data[]) => {
   multipleSelection.value = val
 }
 
-function categoryName(categoryId:number){
+function categoryName(categoryId: number) {
   for (let index = 0; index < categoryList.arr.length; index++) {
-    if(categoryId === categoryList.arr[index]['category_id']){
+    if (categoryId === categoryList.arr[index]['category_id']) {
       return categoryList.arr[index]['category_name']
     }
   }
@@ -73,20 +76,49 @@ function categoryName(categoryId:number){
 
 // 获取分类列表
 onMounted(categoryLists)
-function categoryLists(){
-  getCategoryColumnList().then(res=>{
+function categoryLists() {
+  getCategoryColumnList().then(res => {
     categoryList.arr = res.data.data
   })
 }
 
 // 编辑
-function edit(goods_id:number){
+function edit(goods_id: number) {
   Router.push({
-    path:'editgoods',
-    query:{
+    path: 'editgoods',
+    query: {
       goods_id
     }
   })
+}
+
+// 删除
+function deleteData(article_number: number) {
+  ElMessageBox.confirm(
+    '是否删除该商品?',
+    'Warning',
+    {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  )
+    .then(() => {
+      deleteGoods(article_number).then(res=>{
+        console.log(res);
+        emit('upDataList')
+      })
+      ElMessage({
+        type: 'success',
+        message: '删除成功',
+      })
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: '已取消',
+      })
+    })
 }
 
 </script>

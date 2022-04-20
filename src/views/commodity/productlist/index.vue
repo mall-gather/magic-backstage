@@ -1,7 +1,7 @@
 <template>
   <div class="productlist">
     <ListTitle></ListTitle>
-    <DataList :tableData="tableData.list"></DataList>
+    <DataList :tableData="tableData.list" @upDataList="upDataList"></DataList>
     <Pagination
       :total="total"
       @handleSizeChange="handleSizeChange"
@@ -51,6 +51,10 @@ function getGoodsLists(){
   })
 }
 
+// 更新列表数据
+function upDataList(){
+  getGoodsLists()
+}
 </script>
 
 <style lang="less" scoped>
