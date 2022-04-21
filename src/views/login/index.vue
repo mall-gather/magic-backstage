@@ -38,9 +38,9 @@ import { ElMessage } from 'element-plus'
 import type { FormInstance } from 'element-plus'
 import { UserFilled, Lock } from '@element-plus/icons-vue';
 
-import { login } from '../../api/login';
+import { login } from '@/api/login';
 
-import { setToken } from '../../utils/auth';
+import { setToken } from '@/utils/auth';
 import { useRouter } from 'vue-router';
 
 const ruleFormRef = ref<FormInstance>()
