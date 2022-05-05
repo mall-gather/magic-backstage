@@ -56,10 +56,32 @@ export function upDataGoods(data: T) {
 // 查询货号是否存在
 export function getArticleNumber(article_number: number) {
   return request({
-    url: '/api/articlenumber',
+    url: '/api/getarticlenumber',
     method: 'GET',
     params: {
       article_number: article_number
+    }
+  })
+}
+
+// 查询商品规格
+export function getSpecification(article_number: number) {
+  return request({
+    url: '/api/getspecification',
+    method: 'GET',
+    params: {
+      article_number: article_number
+    }
+  })
+}
+
+// 查询商品规格
+export function upDataSpecification(data: T) {
+  return request({
+    url: '/api/updataspecification',
+    method: 'PUT',
+    data:{
+      specification:data
     }
   })
 }

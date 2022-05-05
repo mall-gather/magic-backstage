@@ -15,9 +15,6 @@
         <el-form-item label="货号" prop="article_number">
           <el-input v-model="ruleForm.data.article_number" :disabled="Route.name === 'editgoods'" />
         </el-form-item>
-        <el-form-item label="商品价格(起步价)" prop="goods_pic">
-          <el-input v-model="ruleForm.data.goods_pic" />
-        </el-form-item>
         <el-form-item label="商品简介" prop="infor">
           <el-input v-model="ruleForm.data.infor" type="textarea" />
         </el-form-item>
@@ -72,7 +69,6 @@ const ruleForm = reactive({
     goods_name: null,
     category_id: null,
     article_number: null,
-    goods_pic: null,
     infor: null,
     // 规格
     specification_name1: null,
@@ -130,13 +126,6 @@ const rules = reactive({
       validator: getArticleNumberRule,
       trigger: 'blur'
     }
-  ],
-  goods_pic: [
-    {
-      required: true,
-      message: '请输入商品价格',
-      trigger: 'change',
-    },
   ],
   infor: [
     {

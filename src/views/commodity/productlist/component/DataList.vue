@@ -18,7 +18,7 @@
       <el-table-column property="article_number" label="货号" width="200" />
       <el-table-column label="库存" header-align="left" align="center" width="120">
         <template #default="scope">
-          <el-button type="primary" :icon="Edit" circle />
+          <el-button type="primary" :icon="Edit" @click="openDialog(scope.row.article_number)" circle />
         </template>
       </el-table-column>
       <el-table-column property="sales" label="销量" width="200" />
@@ -29,6 +29,10 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <Dialog v-model:dialogTableVisible="dialogTableVisible" @updataLists="updataLists" :articleNumber="articleNumber"
+      v-if="dialogTableVisible">
+    </Dialog>
   </div>
 </template>
 
@@ -38,9 +42,11 @@ import type { ElTable } from 'element-plus'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Edit } from '@element-plus/icons-vue';
 
-import {deleteGoods} from '@/api/goods';
+import { deleteGoods } from '@/api/goods';
 import { getCategoryColumnList } from '@/api/category';
 import { useRouter } from 'vue-router';
+
+import Dialog from './Dialog.vue';
 
 interface Props {
   tableData: Array<Data>
@@ -52,19 +58,17 @@ interface Data {
 
 const Router = useRouter()
 const emit = defineEmits(['upDataList'])
-
 const { tableData } = defineProps<Props>()
-
 const categoryList = reactive({
   arr: []
 })
-
 const multipleTableRef = ref<InstanceType<typeof ElTable>>()
 const multipleSelection = ref<Data[]>([])
-
 const handleSelectionChange = (val: Data[]) => {
   multipleSelection.value = val
 }
+const dialogTableVisible = ref(false)
+const articleNumber = ref()
 
 function categoryName(categoryId: number) {
   for (let index = 0; index < categoryList.arr.length; index++) {
@@ -104,13 +108,13 @@ function deleteData(article_number: number) {
     }
   )
     .then(() => {
-      deleteGoods(article_number).then(res=>{
+      deleteGoods(article_number).then(res => {
         console.log(res);
         emit('upDataList')
-      })
-      ElMessage({
-        type: 'success',
-        message: '删除成功',
+        ElMessage({
+          type: 'success',
+          message: '删除成功',
+        })
       })
     })
     .catch(() => {
@@ -119,6 +123,17 @@ function deleteData(article_number: number) {
         message: '已取消',
       })
     })
+}
+
+// 对话框
+function openDialog(article_number: number) {
+  articleNumber.value = article_number
+  dialogTableVisible.value = true
+}
+
+// 关闭对话框时更新数据
+function updataLists() {
+  emit('upDataList')
 }
 
 </script>

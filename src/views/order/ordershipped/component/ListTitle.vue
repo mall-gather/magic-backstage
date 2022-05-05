@@ -4,33 +4,15 @@
       <div class="left">
         <el-icon>
           <list />
-        </el-icon>数据列表
-      </div>
-      <div class="right">
-        <el-button @click="addCategories">添加</el-button>
+        </el-icon>发货列表
       </div>
     </el-card>
-
-    <Categories v-model:dialogFormVisible="dialogFormVisible" :type="type" @updataList="updataList"></Categories>
   </div>
 </template>
 
 <script setup lang="ts">
-import {ref} from 'vue';
 import { List } from '@element-plus/icons-vue';
-import Categories from '@/components/Categories/index.vue';
 
-const emit = defineEmits(['updataList'])
-
-const dialogFormVisible = ref(false)
-const type = ref('添加')
-
-function addCategories(){
-  dialogFormVisible.value = true
-}
-function updataList(){
-  emit('updataList')
-}
 </script>
 
 <style lang="less" scoped>

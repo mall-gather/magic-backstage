@@ -14,5 +14,6 @@ module.exports = {
       .set('views', resolve('src/views'))
       .set('components', resolve('src/components'))
       .set('utils', resolve('src/utils'))
+      .set('api', resolve('src/api'))
   }
 }
