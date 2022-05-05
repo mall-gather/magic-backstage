@@ -95,6 +95,17 @@ export function getLogisticsCompany() {
   })
 }
 
+// 通过id查询物流公司
+export function queryLogisticsCompany(company_id:number) {
+  return request({
+    url: '/api/querylogisticscompany',
+    method: 'get',
+    params:{
+      company_id
+    }
+  })
+}
+
 // 订单发货
 export function updataOrderShipped(data:T) {
   return request({

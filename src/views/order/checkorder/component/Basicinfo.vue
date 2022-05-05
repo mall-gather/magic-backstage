@@ -8,8 +8,8 @@
           </el-icon>当前订单状态：{{ orderStatus(orderData.order_status) }}
         </span>
         <div>
-          <el-button class="button" @click="editConsigneeInfo">修改收货人信息</el-button>
-          <el-button class="button" @click="editCostInfo">修改费用信息</el-button>
+          <el-button v-if="orderData.order_status === 1 || orderData.order_status === 2" class="button" @click="editConsigneeInfo">修改收货人信息</el-button>
+          <el-button v-if="orderData.order_status === 1" class="button" @click="editCostInfo">修改费用信息</el-button>
           <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" @confirm="sureCloseOrder"
             @cancel="cancelCloseOrder" :icon="InfoFilled" icon-color="#626AEF" title="是否关闭订单?">
             <template #reference>
@@ -29,7 +29,8 @@
               <el-button v-if="orderData.order_status === (-1)" class="button">删除订单</el-button>
             </template>
           </el-popconfirm>
-          <el-button v-if="orderData.order_status === 1 || orderData.order_status === 2" class="button" @click="orderRemark">备注订单</el-button>
+          <el-button v-if="orderData.order_status === 1 || orderData.order_status === 2" class="button"
+            @click="orderRemark">备注订单</el-button>
         </div>
       </div>
     </template>
@@ -47,7 +48,7 @@
         </el-descriptions-item>
         <el-descriptions-item label="用户账号">{{ orderData.u_name }}</el-descriptions-item>
         <el-descriptions-item label="支付方式">{{ orderData.pay_channel }}</el-descriptions-item>
-        <el-descriptions-item label="配送方式">{{ orderData.company_id ? orderData.company_id : '暂无' }}
+        <el-descriptions-item label="配送方式">{{ orderData.company_id ? data.company : '暂无' }}
         </el-descriptions-item>
         <el-descriptions-item label="物流单号">{{ orderData.company_number ? orderData.company_number : '暂无' }}
         </el-descriptions-item>
@@ -171,14 +172,14 @@ import {
   InfoFilled
 } from '@element-plus/icons-vue'
 import { regionData } from 'element-china-area-data'
-import { reactive, ref } from 'vue';
+import { reactive, ref, onMounted } from 'vue';
 import Dialog from './Dialog.vue';
 import OrderTrack from '@/components/OrderTrack/index.vue';
 
 import { areaCodeToChinese } from '@/utils/areaCode';
 import { convertTime } from '@/utils/times';
 import listToString from '@/hooks/listToString';
-import { updataConsigneeInfo, updataCostInfo, updataOrderRemark, deleteOrder,updataCloseOrder } from '@/api/order';
+import { updataConsigneeInfo, updataCostInfo, updataOrderRemark, deleteOrder, updataCloseOrder, queryLogisticsCompany } from '@/api/order';
 import { useRouter } from 'vue-router';
 
 interface T {
@@ -214,7 +215,12 @@ const data = reactive({
     note: ''
   },
   options: regionData,
-  selectedOptions: []
+  selectedOptions: [],
+  company: ''
+})
+
+onMounted(()=>{
+  logisticsCompany()
 })
 
 // 当前订单状态
@@ -239,6 +245,15 @@ function orderStatus(order_status: number) {
   }
   return orderStatus
 }
+
+// 物流公司
+function logisticsCompany() {
+  queryLogisticsCompany(orderData.company_id).then(res => {
+    data.company = res.data.data.company_name
+  })
+}
+
+
 
 // 修改收货人信息
 function editConsigneeInfo() {
@@ -317,7 +332,7 @@ function submitOrderRemark() {
 // 关闭订单
 // 确定关闭订单
 function sureCloseOrder() {
-  updataCloseOrder(orderData.order_id).then(res=>{
+  updataCloseOrder(orderData.order_id).then(res => {
     console.log(res);
     ElMessage({
       showClose: true,
@@ -325,7 +340,7 @@ function sureCloseOrder() {
       type: 'success',
     })
     Router.replace({
-      path:'orderlist'
+      path: 'orderlist'
     })
   })
 }
@@ -339,7 +354,7 @@ function cancelCloseOrder() {
 // 取消订单
 // 确定取消订单
 function sureCancelOrder() {
-  updataCloseOrder(orderData.order_id).then(res=>{
+  updataCloseOrder(orderData.order_id).then(res => {
     console.log(res);
     ElMessage({
       showClose: true,
@@ -347,7 +362,7 @@ function sureCancelOrder() {
       type: 'success',
     })
     Router.replace({
-      path:'orderlist'
+      path: 'orderlist'
     })
   })
 }
@@ -361,7 +376,7 @@ function cancelCancelOrder() {
 // 删除订单
 // 确定删除订单
 function sureDeleteOrder() {
-  deleteOrder(orderData.order_id).then(res=>{
+  deleteOrder(orderData.order_id).then(res => {
     console.log(res);
     ElMessage({
       showClose: true,
@@ -369,7 +384,7 @@ function sureDeleteOrder() {
       type: 'success',
     })
     Router.replace({
-      path:'orderlist'
+      path: 'orderlist'
     })
   })
 }
