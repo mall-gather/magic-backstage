@@ -1,12 +1,9 @@
 <template>
   <div class="return-reason-settings">
-    <ListTitle></ListTitle>
-    <DataList :tableData="tableData.slice((currentPage - 1) * pageSize, currentPage * pageSize)"></DataList>
-    <Pagination
-      :total="total"
-      @handleSizeChange="handleSizeChange"
-      @handleCurrentChange="handleCurrentChange"
-    ></Pagination>
+    <ListTitle @updataLists="updataLists"></ListTitle>
+    <DataList v-if="data.tableData.length" :tableData="data.tableData" @updataLists="updataLists"></DataList>
+    <Pagination :total="total" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange">
+    </Pagination>
   </div>
 </template>
 
@@ -14,76 +11,45 @@
 import ListTitle from './component/ListTitle.vue';
 import DataList from './component/DataList.vue';
 import Pagination from '@/components/Pagination/index.vue';
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted,watch } from 'vue';
+import { getreturnreason } from '@/api/order';
 
-interface Data {
-  id: number;
-  reasonType: string;
-  available: boolean;
-  addTime: string;
-  [propName: string]: any;
-}
-
-const tableData: Data[] = reactive([
-  {
-    id: 1,
-    reasonType: '质量问题',
-    available: true,
-    addTime: '2022-04-04'
-  },
-  {
-    id: 2,
-    reasonType: '质量问题',
-    available: true,
-    addTime: '2022-04-04'
-  },
-  {
-    id: 3,
-    reasonType: '质量问题',
-    available: true,
-    addTime: '2022-04-04'
-  },
-  {
-    id: 4,
-    reasonType: '质量问题',
-    available: true,
-    addTime: '2022-04-04'
-  },
-  {
-    id: 5,
-    reasonType: '质量问题',
-    available: true,
-    addTime: '2022-04-04'
-  },
-  {
-    id: 6,
-    reasonType: '质量问题',
-    available: true,
-    addTime: '2022-04-04'
-  },
-  {
-    id: 7,
-    reasonType: '质量问题',
-    available: true,
-    addTime: '2022-04-04'
-  },
-])
+const data = reactive({
+  tableData: []
+})
 
 
 const currentPage = ref(1)
 const pageSize = ref(10)
 
-let total = ref(tableData.length)
-/**
- * 计算页数公式：
- *    (当前页码-1)*每页的数据条数，当前页码*每页的数据条数-1
- *    slice((当前页码-1)*每页的数据条数，当前页码*每页的数据条数)
- */
+let total = ref()
+
 function handleSizeChange(val: number) {
   pageSize.value = val
 }
 function handleCurrentChange(val: number) {
   currentPage.value = val
+}
+
+onMounted(() => {
+  getreturnreasons()
+})
+
+watch(currentPage,getreturnreasons)
+watch(pageSize,getreturnreasons)
+
+// 获取列表数据
+function getreturnreasons() {
+  getreturnreason(currentPage.value, pageSize.value).then(res => {
+    console.log(res);
+    data.tableData = res.data.data
+    total.value = res.data.total
+  })
+}
+
+// 更新数据
+function updataLists(){
+  getreturnreasons()
 }
 
 </script>

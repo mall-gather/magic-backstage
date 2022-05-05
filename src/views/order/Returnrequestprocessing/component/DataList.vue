@@ -17,7 +17,7 @@
       <el-table-column property="processingTime" label="处理时间" width="120" />
       <el-table-column label="操作">
         <template #default="scope">
-          <el-button>查看详情</el-button>
+          <el-button @click="seeDetails(scope.row.order_id)">查看详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -45,12 +45,17 @@ interface Data {
 const { tableData } = defineProps<Props>()
 
 
-
 const multipleTableRef = ref<InstanceType<typeof ElTable>>()
 const multipleSelection = ref<Data[]>([])
 
 const handleSelectionChange = (val: Data[]) => {
   multipleSelection.value = val
+}
+
+// 查看详查
+function seeDetails(id:string){
+  console.log(id);
+  
 }
 
 </script>

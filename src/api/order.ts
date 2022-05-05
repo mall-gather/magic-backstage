@@ -103,3 +103,44 @@ export function updataOrderShipped(data:T) {
     data
   })
 }
+
+// 退款原因列表
+export function getreturnreason(currentPage: number, pageSize: number) {
+  return request({
+    url: '/api/getreturnreason',
+    method: 'get',
+    params: {
+      currentPage,
+      pageSize
+    }
+  })
+}
+
+// 编辑退货原因
+export function updataReason(data:T) {
+  return request({
+    url: '/api/updatareason',
+    method: 'put',
+    data
+  })
+}
+
+// 添加退货原因
+export function addReason(data:T) {
+  return request({
+    url: '/api/addreason',
+    method: 'post',
+    data
+  })
+}
+
+// 删除退货原因
+export function deleteReason(reason_id:number) {
+  return request({
+    url: '/api/deletereason',
+    method: 'delete',
+    params:{
+      reason_id
+    }
+  })
+}

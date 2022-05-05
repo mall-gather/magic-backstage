@@ -43,7 +43,7 @@
       </el-menu-item-group>
     </el-sub-menu>
 
-    <el-sub-menu index="/marketing">
+    <!-- <el-sub-menu index="/marketing">
       <template #title>
         <el-icon>
           <ticket />
@@ -59,9 +59,9 @@
         <el-menu-item index="/marketing/recommendedtopics">专题推荐</el-menu-item>
         <el-menu-item index="/marketing/adlist">广告列表</el-menu-item>
       </el-menu-item-group>
-    </el-sub-menu>
+    </el-sub-menu> -->
 
-    <el-sub-menu index="/permission">
+    <!-- <el-sub-menu index="/permission">
       <template #title>
         <el-icon>
           <key />
@@ -74,7 +74,7 @@
         <el-menu-item index="/permission/menulist">菜单列表</el-menu-item>
         <el-menu-item index="/permission/listofresources">资源列表</el-menu-item>
       </el-menu-item-group>
-    </el-sub-menu>
+    </el-sub-menu> -->
   </el-menu>
 </template>
 
