@@ -6,3 +6,11 @@ export function index(){
     method:'GET'
   })
 }
+
+// 订单总数
+export function getOrderStatistics(){
+  return request({
+    url:'/api/getorderstatistics',
+    method:'GET'
+  })
+}

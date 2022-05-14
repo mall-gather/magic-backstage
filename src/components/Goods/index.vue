@@ -31,7 +31,7 @@
           <ImageUpload v-model="ruleForm.data.goods_carousel"
             v-else-if="Route.name === 'editgoods' && ruleForm.data.goods_carousel !== null" />
         </el-form-item>
-        <el-form-item label="商品详细图" prop="goods_carousel">
+        <el-form-item label="商品详细图" prop="goods_details">
           <ImageUpload v-model="ruleForm.data.goods_details" v-if="Route.name === 'addinggoods'" />
           <ImageUpload v-model="ruleForm.data.goods_details"
             v-else-if="Route.name === 'editgoods' && ruleForm.data.goods_details !== null" />

@@ -37,7 +37,7 @@ const listHeader: List[] = [
   },
   {
     icon: 'coin',
-    title: '昨日销售总额'
+    title: '今日完成订单总数'
   }
 ]
 </script>
