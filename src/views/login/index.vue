@@ -88,7 +88,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
             type: 'success',
           })
           Router.push({
-            path: '/home'
+            path: '/me'
           })
         }
       }).catch((err: any): void => {
